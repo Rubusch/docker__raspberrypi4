@@ -2,7 +2,7 @@
 
 Contains a Dockerfile for building an docker image and its container for the _RaspberryPi 4_ using buildroot.
 
-Implicitely will run ```git clone --branch lothar/raspberrypi4-devel https://github.com/Rubusch/buildroot.git``` inside the docker container.
+Implicitely will run ```git clone --branch lothar/raspberry4-devel https://github.com/Rubusch/buildroot.git``` inside the docker container.
 
 
 ## Build
