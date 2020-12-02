@@ -1,3 +1,7 @@
+[![CircleCI](https://circleci.com/gh/Rubusch/docker__raspberrypi4.svg?style=shield)](https://circleci.com/gh/Rubusch/docker__raspberrypi4)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+
+
 # Build Container for my RaspberryPi 4
 
 Contains a Dockerfile for building an docker image and its container for the _RaspberryPi 4_ using buildroot.  
