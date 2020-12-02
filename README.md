@@ -1,8 +1,8 @@
 # Build Container for my RaspberryPi 4
 
-Contains a Dockerfile for building an docker image and its container for the _RaspberryPi 4_ using buildroot.
+Contains a Dockerfile for building an docker image and its container for the _RaspberryPi 4_ using buildroot.  
 
-Implicitely will run ```git clone --branch lothar/raspberry4-devel https://github.com/Rubusch/buildroot.git``` inside the docker container.
+Implicitely will run ```git clone --branch lothar/raspberry4-devel https://github.com/Rubusch/buildroot.git``` inside the docker container.  
 
 
 ## Build
@@ -10,30 +10,26 @@ Implicitely will run ```git clone --branch lothar/raspberry4-devel https://githu
 
 ```
 $ cd ./docker__buildroot/
-$ time docker build --build-arg USER=$USER -t rubuschl/raspberrypi4-buildroot:$(date +%Y%m%d%H%M%S) .
+$ time docker build --build-arg USER=$USER -t rubuschl/rpi4-buildroot:$(date +%Y%m%d%H%M%S) .
 ```
 
-Use ```--no-cache``` when re-implementing the docker image.
+Use ```--no-cache``` for rebuild without artifacts.  
 
 
 ## Usage
 
-```
-$ docker images
-    REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
-    rubuschl/raspberrypi4-buildroot 20191104161353      cbf4cb380168        24 minutes ago      10.5GB
-    ubuntu                          xenial              5f2bf26e3524        4 days ago          123MB
-
-$ time docker run --rm -ti --user=$USER:$USER --workdir=/home/$USER -v $PWD/dl:/home/$USER/buildroot/dl -v $PWD/output:/home/$USER/buildroot/output rubuschl/raspberrypi4-buildroot:20191104161353
-```
-
-## Debug
+Example tag _20191104161353_  
 
 ```
 $ docker images
     REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
-    rubuschl/raspberrypi4-buildroot 20191104161353      cbf4cb380168        24 minutes ago      10.5GB
-    ubuntu                          xenial              5f2bf26e3524        4 days ago          123MB
+    rubuschl/rpi4-buildroot         20191104161353      cbf4cb380168        24 minutes ago      10.5GB
+    ...
 
-$ docker run --rm -ti --user=$USER:$USER --workdir=/home/$USER -v $PWD/dl:/home/$USER/buildroot/dl -v $PWD/output:/home/$USER/buildroot/output rubuschl/raspberrypi4-buildroot:20191104161353 /bin/bash
+$ docker run --rm -ti --user=$USER:$USER --workdir=/home/$USER -v $PWD/dl:/home/$USER/buildroot/dl -v $PWD/output:/home/$USER/buildroot/output rubuschl/rpi4-buildroot:20191104161353 /bin/bash
+
+docker $> build.sh
 ```
+
+Defaults to ``build.sh`` if called without ``/bin/bash``.  
+
