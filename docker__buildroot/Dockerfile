@@ -9,6 +9,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ## in case docker complains for a not set USER, perhaps you forgot to use --build-arg USER=$USER
 ARG USER=""
 
+ARG BRANCH="lothar/2020.11.x"
+
 
 ################################################################################
 ## set up apt fully functional
@@ -77,7 +79,10 @@ RUN sed -i '/%sudo/s/.*/%sudo   ALL=NOPASSWD: ALL/' /etc/sudoers
 
 ################################################################################
 ## get (my) sources
-RUN cd /home/$USER && git clone -j4 --depth=1 --branch lothar/raspberry4-devel https://github.com/Rubusch/buildroot.git buildroot
+
+## NB: since we mount 'dl' and 'output', it needs a patched version of buildroot
+RUN cd /home/$USER && git clone -j4 --depth=1 --branch ${BRANCH} https://github.com/Rubusch/buildroot.git buildroot
+
 ## alternatively get official buildrooot
 #RUN git clone -j4 --depth=1 https://github.com/buildroot/buildroot.git buildroot
 RUN chown $USER:$USER -R /home/$USER
