@@ -9,31 +9,26 @@ Contains a Dockerfile for building an docker image and its container for the _Ra
 Implicitely will run ```git clone --branch lothar/raspberry4-devel https://github.com/Rubusch/buildroot.git``` inside the docker container.  
 
 
+## Tools Needed
+
+```
+$ sudo curl -L "https://github.com/docker/compose/releases/download/1.28.6/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+$ sudo chmod a+x /usr/local/bin/docker-compose
+```
+
+NB: Where 1.28.6 is the latest version (currently not supported by devian/ubuntu package management)  
+
+
 ## Build
 
-
 ```
-$ cd ./docker__buildroot/
-$ time docker build --build-arg USER=$USER -t rubuschl/rpi4-buildroot:$(date +%Y%m%d%H%M%S) .
+$ cd docker
+$ docker-compose up
 ```
-
-Use ```--no-cache``` for rebuild without artifacts.  
 
 
 ## Usage
 
-Example tag _20191104161353_  
-
 ```
-$ docker images
-    REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
-    rubuschl/rpi4-buildroot         20191104161353      cbf4cb380168        24 minutes ago      10.5GB
-    ...
-
-$ docker run --rm -ti --user=$USER:$USER --workdir=/home/$USER -v $PWD/dl:/home/$USER/buildroot/dl -v $PWD/output:/home/$USER/buildroot/output rubuschl/rpi4-buildroot:20191104161353 /bin/bash
-
-docker $> build.sh
+$ docker-compose -f ./docker-compose.yml run --rm u-boot_devel /bin/bash
 ```
-
-Defaults to ``build.sh`` if called without ``/bin/bash``.  
-

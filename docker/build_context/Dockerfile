@@ -1,6 +1,5 @@
 FROM ubuntu:20.04
 MAINTAINER Lothar Rubusch <lotophagon@protonmail.com>
-WORKDIR /root
 ENV DEBIAN_FRONTEND=noninteractive
 
 
@@ -13,6 +12,12 @@ ARG BRANCH="lothar/2020.11.x"
 
 
 ################################################################################
+## package manager
+
+## (opt) fix for sporadic problems like: "Not Found [IP: 91.189.88.152 80]"
+#RUN sed -i'' 's/archive.ubuntu.com/us.archive.ubuntu.com/' /etc/apt/sources.list
+RUN sed -i'' 's/archive.ubuntu.com/ubuntu.ethz.ch/' /etc/apt/sources.list
+
 ## set up apt fully functional
 RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y --purge
 RUN apt-get install -y  \
@@ -76,16 +81,43 @@ RUN useradd "$USER" -m --password "$USER"
 RUN usermod -a -G sudo "$USER"
 RUN sed -i '/%sudo/s/.*/%sudo   ALL=NOPASSWD: ALL/' /etc/sudoers
 
+RUN chown $USER:$USER -R /home/$USER
+
+
+################################################################################
+## get sources
+## NOTE: this container will obtain sources in manually executed script (later), sources shall be shared between container and outside
+
+## prepare paths
+RUN mkdir -p /home/$USER/configs
+
+## reset permissions
+RUN chown $USER:$USER -R /home/$USER/
+
 
 ################################################################################
 ## get (my) sources
 
-## NB: since we mount 'dl' and 'output', it needs a patched version of buildroot
-RUN cd /home/$USER && git clone -j4 --depth=1 --branch ${BRANCH} https://github.com/Rubusch/buildroot.git buildroot
+WORKDIR /home/$USER
+USER $USER
 
+## bash config
+RUN rm -f /home/$USER/.bashrc && ln -s /home/$USER/configs/.bashrc /home/$USER/
+
+## vim config
+RUN rm -f /home/$USER/.vimrc && ln -s /home/$USER/configs/.vimrc /home/$USER/
+
+## emacs config
+RUN rm -f /home/$USER/.emacs && ln -s /home/$USER/configs/.emacs /home/$USER/
+
+## gitconfig (contains secrets)
+RUN rm -f /home/$USER/.gitconfig && ln -s /home/$USER/configs/.gitconfig /home/$USER/
+
+
+## NB: since we mount 'dl' and 'output', it needs a patched version of buildroot
+RUN git clone -j4 --depth=1 --branch ${BRANCH} https://github.com/Rubusch/buildroot.git buildroot
 ## alternatively get official buildrooot
 #RUN git clone -j4 --depth=1 https://github.com/buildroot/buildroot.git buildroot
-RUN chown $USER:$USER -R /home/$USER
 
 
 ################################################################################

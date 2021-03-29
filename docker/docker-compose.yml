@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+    rpi4_buildroot:
+        container_name: rpi4_buildroot
+        image: rubuschl/rpi4_buildroot
+        build:
+            context: build_context
+            dockerfile: Dockerfile
+            args:
+                USER: $USER
+        user: $USER              ## docker run --user=$USER
+        stdin_open: true         ## docker run -i
+        tty: true                ## docker run -t
+        #privileged: true
+
+        environment:
+          - USER
+
+        volumes:
+          - ./output:/home/$USER/buildroot/output  ## folder does not need to be around
+
+          - ./dl:/home/$USER/buildroot/dl
+
+          - type: bind
+            source: ./build_configs      ## folder must be around
+            target: /home/$USER/configs
