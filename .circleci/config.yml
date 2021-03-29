@@ -8,6 +8,4 @@ jobs:
      - run: sudo chmod a+x /usr/local/bin/docker-compose
 
      - checkout
-
-     # buildroot
-     - run: cd ./docker__buildroot && docker-compose up
+     - run: cd ./docker && docker-compose up
