@@ -30,5 +30,5 @@ $ docker-compose up
 ## Usage
 
 ```
-$ docker-compose -f ./docker-compose.yml run --rm u-boot_devel /bin/bash
+$ docker-compose -f ./docker-compose.yml run --rm rpi4_buildroot /bin/bash
 ```
