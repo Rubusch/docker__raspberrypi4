@@ -3,7 +3,7 @@ version: '3.8'
 services:
     rpi4_buildroot:
         container_name: rpi4_buildroot
-        image: rubuschl/rpi4_buildroot
+        image: ${USER}/rpi4_buildroot
         build:
             context: build_context
             dockerfile: Dockerfile
@@ -18,8 +18,10 @@ services:
           - USER
 
         volumes:
-          - ./output:/home/$USER/buildroot/output  ## folder does not need to be around
+          - ~/.gitconfig:/home/$USER/.gitconfig
+          - ~/.ssh:/home/$USER/.ssh
 
+          - ./output:/home/$USER/buildroot/output  ## folder does not need to be around
           - ./dl:/home/$USER/buildroot/dl
 
           - type: bind
