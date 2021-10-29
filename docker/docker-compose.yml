@@ -1,29 +1,28 @@
 version: '3.8'
 
 services:
-    rpi4_buildroot:
-        container_name: rpi4_buildroot
-        image: ${USER}/rpi4_buildroot
+    rpi4:
+        container_name: rpi4
+        image: "${USER}/rpi4"
         build:
             context: build_context
             dockerfile: Dockerfile
             args:
-                USER: $USER
-        user: $USER              ## docker run --user=$USER
+                USER: "${USER}"
+                UID: "${UID}"
+                GID: "${GID}"
+        user: "${UID}:${GID}"    ## docker run --user=$USER
         stdin_open: true         ## docker run -i
         tty: true                ## docker run -t
         #privileged: true
-
         environment:
           - USER
-
+        env_file:
+          - .env
         volumes:
           - ~/.gitconfig:/home/$USER/.gitconfig
           - ~/.ssh:/home/$USER/.ssh
-
-          - ./output:/home/$USER/buildroot/output  ## folder does not need to be around
-          - ./dl:/home/$USER/buildroot/dl
-
+          - ~/.buildroot:/home/$USER/buildroot
           - type: bind
-            source: ./build_configs      ## folder must be around
+            source: ./build_configs
             target: /home/$USER/configs

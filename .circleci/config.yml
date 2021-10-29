@@ -8,4 +8,4 @@ jobs:
      - run: sudo chmod a+x /usr/local/bin/docker-compose
 
      - checkout
-     - run: cd ./docker && docker-compose up --exit-code-from rpi4_buildroot
+     - run: ./setup.sh ci

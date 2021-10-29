@@ -4,5 +4,10 @@
 *.orig
 
 ## ignore output folder
-output
-dl
+buildroot
+
+## docker base image
+sandbox
+
+## docker environment
+.env
