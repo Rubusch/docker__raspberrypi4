@@ -6,8 +6,6 @@ ARG USER="${USER}"
 ARG DOCKER_BASE="sandbox"
 ARG DOCKER_BASE_TAG="20211028"
 
-ARG BRANCH="lothar/2020.11.x"
-
 
 ################################################################################
 FROM ${USER}/${DOCKER_BASE}:${DOCKER_BASE_TAG} AS rpi4
@@ -41,13 +39,11 @@ RUN apt-get install -y   \
 
 
 ################################################################################
-################################################################################
 ## sources
 USER $USER
 WORKDIR /home/$USER
 
 RUN mkdir -p /home/$USER/buildroot
-
 RUN mkdir -p /home/$USER/configs
 
 
